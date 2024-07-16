@@ -75,7 +75,7 @@ class HydraAPI {
         if(!token)  throw new Error("no Login token");
         const body = {
             // scope:"offline users.write users.read users.edit users.delete",
-            refresh_token:token,
+            access_token:token,
         };
 
         try {

@@ -190,6 +190,7 @@ fetch(tokenUrl, {
 app.get("/check",async (req,res,next)=>{
 
 
+
   const redirectUri = process.env.REDIRECT_URI
   const CLIENT_ID = process.env.CLIENT_ID;
   const CLIENT_SECRET = process.env.CLIENT_SECRET;
@@ -200,10 +201,10 @@ app.get("/check",async (req,res,next)=>{
   const tokenUrl = `http://localhost:5445/oauth2/introspect`;
   console.log(tokenUrl);
   const tokenRequestBody = {
-    grant_type: "refresh_token",
-    client_id: CLIENT_ID,
+    // grant_type: "client_credentials",
+    // client_id: CLIENT_ID,
     scope:"offline users.write users.read users.edit users.delete",
-    access_token:'XFTnTVSXAycpDSxBpVK6ci-LVIyyLJZJdgW43douVaY.-iDjXz_GF2Ke8EVXBUiNMrSQ7LdT1TwMm4z7XW3YuCU',
+    token:'6_5EPLzeeddxzQfr2YVRPjh5uAP1G9S8UIcNOHn45mM.wDDcuUDTWWA5XHJpkTVGH_sLm7MGQMPqudzs6NoPqUk',
     // client_secret: CLIENT_SECRET,
     // redirect_uri: redirectUri,
     // code_verifier: codeVerifier,
@@ -211,7 +212,12 @@ app.get("/check",async (req,res,next)=>{
   }
   fetch(tokenUrl, {
     method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization":`Basic ${basicAuth}` },
+    headers: { "Content-Type": "application/x-www-form-urlencoded", 
+    "Authorization":`Basic ${basicAuth}`, 
+    // scope:"offline users.write users.read users.edit users.delete",
+    // token:'6_5EPLzeeddxzQfr2YVRPjh5uAP1G9S8UIcNOHn45mM.wDDcuUDTWWA5XHJpkTVGH_sLm7MGQMPqudzs6NoPqUk',
+    // client_id: CLIENT_ID,
+    },
     body: tokenRequestBody.toString(),
   })
     .then((response) => response.json())

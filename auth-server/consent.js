@@ -172,7 +172,7 @@ router.post("/", (req, res, next) => {
 
 router.get("/check",async (req,res,next)=>{
   HydraAPI
-  .introspectToken("rWiTsRHiD6fR3P4NtU85EebCSNrLLVTr12ijimTT2kg.f1Q187WhfGpQDmb6T8Y5LkHf7J1Ncy8Af0WrQld91Zg")
+  .introspectToken("gXbltqobyNnXDNjSGQz6YoeBe2eQp3XJvaJStU8aXFU.0c0KRQbkzfI7UUruT1JPm5KSg7dFIxCVvEL6wcF9-Ds")
   // This will be called if the HTTP request was successful
   .then(({ data: body }) => {
     res.send(body);
