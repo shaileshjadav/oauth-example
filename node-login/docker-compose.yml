@@ -1,0 +1,53 @@
+version: '3.3'
+
+services:
+  
+  hydra-migrate:
+    image: oryd/hydra:v1.10.6
+    container_name: ory-hydra-migrate
+    restart: on-failure
+    networks:
+      - hydraguide
+    environment:
+      DSN: "${DSN}"
+    command: migrate sql --yes ${DSN}
+    depends_on:
+      - postgres
+
+  hydra:
+    image: oryd/hydra:v1.10.6
+    container_name: ory-hydra-example
+    restart: on-failure
+    networks:
+      - hydraguide
+    ports:
+      - "5444:4444"
+      - "5445:4445"
+    environment:
+      SECRETS_SYSTEM: "${SECRETS_SYSTEM}"
+      DSN: "${DSN}"
+      URLS_SELF_ISSUER: "http://localhost:5444/"
+      URLS_CONSENT: "http://localhost:9020/consent"
+      URLS_LOGIN: "http://localhost:9020/login"
+    command: serve all --dangerous-force-http
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:9.6
+    container_name: ory-postgres
+    networks:
+      - hydraguide
+    environment:
+      POSTGRES_USER: hydra
+      POSTGRES_PASSWORD: secret
+      POSTGRES_DB: hydra
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+networks:
+  hydraguide:
+    driver: bridge
+
+volumes:
+  postgres_data:
