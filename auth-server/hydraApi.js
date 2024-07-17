@@ -1,5 +1,6 @@
 const axios = require("axios");
-const baseUrl =  "http://localhost:5445/";
+const baseUrl =  process.env.HYDRA_ADMIN_URL;
+
 class HydraAPI {
 
     static async getClients (){
@@ -71,18 +72,18 @@ class HydraAPI {
             }
     }
 
-    static introspectToken = async (token)=>{
+    static introspectToken = async (token, clientId)=>{
         if(!token)  throw new Error("no Login token");
-        const body = {
-            // scope:"offline users.write users.read users.edit users.delete",
-            access_token:token,
-        };
-
+        const body = new URLSearchParams({
+            token,
+            clientId,
+            grant_type:"client_credentials"
+        });
+        
         try {
             const response = await axios.post(`${baseUrl}/oauth2/introspect`,body.toString(),{
                 "Content-Type": "application/x-www-form-urlencoded",
-                "Accept":"application/json",
-                // "Authorization": "basic bm9kZS1hcHA6c29tZS1zZWNyZXQ"
+                
             });
             return response;
             } catch (error) {

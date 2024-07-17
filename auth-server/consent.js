@@ -23,7 +23,7 @@ router.get("/", (req, res, next) => {
   .adminGetOAuth2ConsentRequest(challenge)
   // This will be called if the HTTP request was successful
   .then(({ data: body }) => {
-    console.log(body);
+
     // If a user has granted this application the requested scope, hydra will tell us to not show the UI.
     // Any cast needed because the SDK changes are still unreleased.
     // TODO: Remove in a later version.
@@ -170,40 +170,16 @@ router.post("/", (req, res, next) => {
     // label:docs-accept-consent
 })
 
+// check token expired or by using this route
 router.get("/check",async (req,res,next)=>{
+  const clientId = process.env.NODE_APP_CLIENT_ID;
+  // token can be access token or refresh token of user
+  // Note: Here for example used static token, change
   HydraAPI
-  .introspectToken("gXbltqobyNnXDNjSGQz6YoeBe2eQp3XJvaJStU8aXFU.0c0KRQbkzfI7UUruT1JPm5KSg7dFIxCVvEL6wcF9-Ds")
+  .introspectToken("WU1qpIWt8_MaBPs9nqO5_SfVVYlE-0K1Sy6HPImkD7M.PBSnhlCDa-RPu-0F-_l0F3dCyo1SnMaaA2AtNgQc__U", clientId)
   // This will be called if the HTTP request was successful
   .then(({ data: body }) => {
     res.send(body);
   }).catch(e=>res.send(e))
-
-  // const redirectUri = REDIRECT_URI
-  // const clientId = CLIENT_ID;
-  // const basicAuth = btoa(encodeURI(CLIENT_ID)+":"+encodeURI(CLIENT_SECRET))
-  
-  // const tokenUrl = `${HYDRA_ADMIN_URL}/admin/oauth2/introspect`;
-  // const tokenRequestBody = new URLSearchParams({
-  //   // grant_type: "refresh_token",
-  //   // client_id: clientId,
-  //   scope:"offline_access",
-  //   refresh_token:'RDPuo_oQ_Yk6uu3L7Z3P-9b__bvS_cnN8fH3Tbep1bM.D_1Rsrs3uALweBvDEARtiesD8ollErP-UyYGk5IIfW0',
-  //   // client_secret: CLIENT_SECRET,
-  //   // redirect_uri: redirectUri,
-  //   // code_verifier: codeVerifier,
-  //   // code: code,
-  // })
-  // fetch(tokenUrl, {
-  //   method: "POST",
-  //   headers: { "Content-Type": "application/x-www-form-urlencoded", "Authorization":`Basic ${basicAuth}` },
-  //   body: tokenRequestBody.toString(),
-  // })
-  //   .then((response) => response.json())
-  //   .then((tokenResponse) => {
-  //     res.send(tokenResponse);
-  //   })
-  //   .catch((error) => console.error(error))
-  
-  
   });
 module.exports = router;
