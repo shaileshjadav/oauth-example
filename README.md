@@ -20,3 +20,9 @@ This is just example of oauth using nodejs and ory-hydra.
 ```
     4. copy .env.example to .env in both apps
     5.  npm install and run both apps.
+
+## Workflow of project
+
+
+https://github.com/user-attachments/assets/a06c077a-5d0b-4a25-887a-d3a3c278f365
+
