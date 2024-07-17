@@ -80,7 +80,7 @@ fetch(tokenUrl, {
     res.cookie('refresh_token', refresh_token, { httpOnly: true });
     res.cookie('id_token', id_token, { httpOnly: true });
 
-    res.send('Login successful! You can now access protected resources.');
+    res.send('Login successful! You can now access protected resources. <br/> <br/>'+ JSON.stringify(tokenResponse));
   })
   .catch((error) => console.error(error))
 
@@ -96,13 +96,13 @@ const  CLIENT_SECRET = process.env.CLIENT_SECRET;
 const HYDRA_PUBLIC_URL = process.env.HYDRA_PUBLIC_URL;
 
 const basicAuth = btoa(encodeURI(CLIENT_ID)+":"+encodeURI(CLIENT_SECRET))
-
+const {refreshToken} = req.query;
 const tokenUrl = `${HYDRA_PUBLIC_URL}/oauth2/token`;
 const tokenRequestBody = new URLSearchParams({
   grant_type: "refresh_token",
   client_id: CLIENT_ID,
   scope:"offline_access",
-  refresh_token:'gVjP1Jv4Tawti-CmsOkCNC-jBsLsP26GTcAFDgVmYes.dq6MJpDQeQpV_4UnDnZHM9SbNjk3Y5PtjEUUwNKvys8',
+  refresh_token:refreshToken,
 })
 fetch(tokenUrl, {
   method: "POST",

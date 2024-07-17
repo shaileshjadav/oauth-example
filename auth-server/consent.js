@@ -1,7 +1,7 @@
 const express = require("express");
 
 const url = require("url");
-const HydraAPI = require(".//hydraApi");
+const HydraAPI = require("./hydraApi");
 
 
 const router = express.Router();
@@ -83,7 +83,7 @@ router.post("/", (req, res, next) => {
     if (req.body.submit === "Deny access") {
       // Looks like the consent request was denied by the user
       return (
-        hydraAdmin
+        HydraAPI
           .adminRejectOAuth2ConsentRequest(challenge, {
             error: "access_denied",
             error_description: "The resource owner denied the request",
@@ -173,10 +173,12 @@ router.post("/", (req, res, next) => {
 // check token expired or by using this route
 router.get("/check",async (req,res,next)=>{
   const clientId = process.env.NODE_APP_CLIENT_ID;
+  const {token} = req.query;
+
   // token can be access token or refresh token of user
   // Note: Here for example used static token, change
   HydraAPI
-  .introspectToken("WU1qpIWt8_MaBPs9nqO5_SfVVYlE-0K1Sy6HPImkD7M.PBSnhlCDa-RPu-0F-_l0F3dCyo1SnMaaA2AtNgQc__U", clientId)
+  .introspectToken(token, clientId)
   // This will be called if the HTTP request was successful
   .then(({ data: body }) => {
     res.send(body);
