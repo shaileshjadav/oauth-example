@@ -18,4 +18,5 @@ This is just example of oauth using nodejs and ory-hydra.
         "token_endpoint_auth_method": "client_secret_basic"
     }'
 ```
-    4.  npm install and run both apps.
+    4. copy .env.example to .env in both apps
+    5.  npm install and run both apps.
