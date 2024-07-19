@@ -1,0 +1,83 @@
+{
+    "log": {
+      "level": "debug",
+      "format": "json"
+    },
+    "serve": {
+      "proxy": {
+        "port":4455
+      }
+    },
+    "errors": {
+      "fallback": [
+        "json"
+      ],
+      "handlers": {
+        "json": {
+          "enabled": true,
+          "config": {
+            "verbose": true
+          }
+        }
+      }
+    },
+    "access_rules": {
+        "matching_strategy": "regexp",
+        "repositories": [
+            "file:///rules.json"
+           
+        ]
+    },
+    "authenticators":{
+        "oauth2_introspection": {
+            "enabled": true,
+            "config": {
+            "introspection_url": "http://localhost:5445/oauth2/introspect",
+            "scope_strategy": "exact",
+            "pre_authorization": {
+                "enabled": false,
+                "client_id": "clientId",
+                "client_secret": "someSecret",
+                "scope": [
+                "offline"
+                ],
+                "token_url": "http://localhost:5445/oauth2/token"
+            },
+            "token_from": {
+                "header": "token"
+            },
+            "introspection_request_headers": {
+                "x-forwarded-proto": "http"
+            },
+            "retry": {
+                "max_delay": "300ms",
+                "give_up_after": "2s"
+            }
+            }
+        },
+        "anonymous": {
+            "enabled": true,
+            "config": {
+                "subject": "guest"
+            }
+        }
+    },
+    "authorizers": {
+      "allow": {
+        "enabled": true
+      }
+    },
+    "mutators": {
+        "header": {
+          "enabled": true,
+          "config": {
+            "headers": {
+              "auth-user": "{{ print .Subject }}"
+            }
+          }
+        },
+        "noop" : { 
+          "enabled": true
+        }
+      }
+}

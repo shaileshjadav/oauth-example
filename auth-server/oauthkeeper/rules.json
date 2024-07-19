@@ -1,0 +1,41 @@
+[
+    {
+        "id": "api1",
+        "upstream": {
+            "preserve_host": true,
+            "url": "http://node-api:3005"
+        },
+        "match": {
+            "url": "http://<127.0.0.1|localhost>:4455/<.*>",
+            "methods": [
+            "GET",
+            "POST",
+            "PUT",
+            "DELETE",
+            "PATCH"
+            ]
+        },
+       "authenticators": [
+            {
+                "handler": "anonymous"
+            }
+        ],
+        "mutators": [
+            {
+                "handler": "header",
+                "config": {
+                "headers": {
+                    "X-User": "{{ print .Subject }}"
+                }
+                }
+            }
+        ],
+        "authorizer": {
+            "handler": "allow"
+            },
+            "errors": [{
+                "handler": "json"
+            }
+        ]
+    }
+]

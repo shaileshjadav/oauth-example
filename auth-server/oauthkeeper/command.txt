@@ -1,0 +1,11 @@
+docker run oryd/oathkeeper:v0.40.7 credentials generate --alg RS256 > jwks.json
+
+docker build -t ory-oauthkeeper-demo .
+
+docker run  \
+  --name ory-oauthkeeper-demo \
+  -p 4455:4455 \
+  -p 4456:4456 \
+ ory-oauthkeeper-demo \
+  --config ./config.json \
+  serve 

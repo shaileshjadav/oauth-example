@@ -1,7 +1,32 @@
 version: '3.3'
 
 services:
-  
+
+  node-api:
+    image: node:18.17.0-alpine
+    container_name: node-api
+    networks:
+      - hydraguide
+    build: .
+    volumes: 
+      - ../node-api/:/app
+    ports: 
+      - "8000:3005"
+    command: node app/app.js
+
+  oauthkeeper:
+    image: oryd/oathkeeper:v0.40.7
+    container_name: ory-oauthkeeper
+    ports: 
+      - "4455:4455"
+      - "4456:4456"
+    restart: on-failure
+    networks:
+      - hydraguide
+    volumes:
+      - ./oauthkeeper/config.json:/oauthkeeper/config.json
+      - ./oauthkeeper/rules.json:/oauthkeeper/rules.json
+
   hydra-migrate:
     image: oryd/hydra:v1.10.6
     container_name: ory-hydra-migrate
