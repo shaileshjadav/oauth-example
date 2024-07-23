@@ -5,7 +5,28 @@
     },
     "serve": {
       "proxy": {
-        "port":4455
+        "cors": {
+          "enabled": true,
+          "allowed_origins": [
+            "*"
+          ],
+          "allowed_methods": [
+            "POST",
+            "GET",
+            "PUT",
+            "PATCH",
+            "DELETE"
+          ],
+          "allowed_headers": [
+            "Authorization",
+            "Content-Type"
+          ],
+          "exposed_headers": [
+            "Content-Type"
+          ],
+          "allow_credentials": true,
+          "debug": true
+        }
       }
     },
     "errors": {
@@ -24,7 +45,7 @@
     "access_rules": {
         "matching_strategy": "regexp",
         "repositories": [
-            "file:///rules.json"
+            "file:///oauthkeeper/rules.json"
            
         ]
     },

@@ -10,19 +10,19 @@ services:
     build: .
     volumes: 
       - ../node-api/:/app
-    ports: 
-      - "8000:3005"
     command: node app/app.js
 
   oauthkeeper:
     image: oryd/oathkeeper:v0.40.7
     container_name: ory-oauthkeeper
     ports: 
-      - "4455:4455"
+      - "8001:4455"
       - "4456:4456"
     restart: on-failure
     networks:
       - hydraguide
+    command:
+      serve proxy -c "/oauthkeeper/config.json"
     volumes:
       - ./oauthkeeper/config.json:/oauthkeeper/config.json
       - ./oauthkeeper/rules.json:/oauthkeeper/rules.json

@@ -8,4 +8,4 @@ docker run  \
   -p 4456:4456 \
  ory-oauthkeeper-demo \
   --config ./config.json \
-  serve 
+  serve proxy

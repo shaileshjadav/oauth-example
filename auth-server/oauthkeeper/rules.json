@@ -6,7 +6,7 @@
             "url": "http://node-api:3005"
         },
         "match": {
-            "url": "http://<127.0.0.1|localhost>:4455/<.*>",
+            "url": "http://<127.0.0.1|localhost>:8001/<.*>",
             "methods": [
             "GET",
             "POST",
@@ -17,7 +17,7 @@
         },
        "authenticators": [
             {
-                "handler": "anonymous"
+                "handler": "oauth2_introspection"
             }
         ],
         "mutators": [
