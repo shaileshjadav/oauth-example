@@ -1,12 +1,11 @@
 const axios = require("axios");
 const baseUrl =  process.env.HYDRA_ADMIN_URL;
-
+console.log("HYDRA_ADMIN_URL", baseUrl);
 class HydraAPI {
 
     static async getClients (){
         try {
-            
-        const response = await axios.get(baseUrl+'clients');
+            const response = await axios.get(baseUrl+'clients');
         return response.data;
         } catch (error) {
             throw new Error(error);
@@ -20,6 +19,7 @@ class HydraAPI {
             const response = await axios.get(`${baseUrl}oauth2/auth/requests/login?login_challenge=${loginChallenge}`);
             return response;
             } catch (error) {
+                console.log(error)
                 throw new Error(error);
             }
     }

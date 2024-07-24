@@ -1,17 +1,45 @@
 version: '3.3'
 
 services:
-
-  node-api:
-    image: node:18.17.0-alpine
-    container_name: node-api
+  web:
+    depends_on:
+      - api
+    build: ../node-app
     networks:
       - hydraguide
-    build: .
-    volumes: 
-      - ../node-api/:/app
-    command: node app/app.js
+    ports:
+      - 9010:9010
+    environment:
+      HYDRA_PUBLIC_URL: http://localhost:5444
+      CLIENT_ID: nodeApp
+      CLIENT_SECRET: someSecret
+      REDIRECT_URI: http://localhost:9010/callback
 
+
+
+  api:
+    depends_on:
+      - auth-api
+    build: ../node-api
+    networks:
+      - hydraguide
+    ports: 
+      - "3005:3005"
+
+  auth-api:
+    image: node:18.17.0-alpine
+    container_name: auth-api
+    build: .
+    networks:
+      - hydraguide
+    ports: 
+      - "9020:9020"
+    environment:
+      SECRETS_SYSTEM: "${SECRETS_SYSTEM}"
+      DSN: "${DSN}"
+      NODE_APP_CLIENT_ID: clientId
+      HYDRA_ADMIN_URL: http://localhost:5445/
+    
   oauthkeeper:
     image: oryd/oathkeeper:v0.40.7
     container_name: ory-oauthkeeper
