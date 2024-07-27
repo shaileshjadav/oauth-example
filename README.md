@@ -20,3 +20,18 @@ This is just example of oauth using nodejs and ory-hydra.
 ```
     4. copy .env.example to .env in both apps
     5.  npm install and run both apps.
+
+## HOW TO RUN
+    - Run docker compose up in auth-server folder
+        `docker compose up --build`
+
+
+## How to Test 
+    - oauthkeepr reverse proxy with authorization
+    
+    - GO TO: http://localhost:9010/
+        - enter test login credentails and finish flow
+        - copy access token and pass in below API.
+    - http://localhost:8001/fake-users, 
+        - headers:
+                - token: {token}

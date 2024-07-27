@@ -58,7 +58,9 @@ const HYDRA_PUBLIC_URL = process.env.HYDRA_PUBLIC_URL;
   return;
  }
 
-const tokenUrl = `${HYDRA_PUBLIC_URL}/oauth2/token`;
+const tokenUrl = `${process.env.HYDRA_AUTH_API_URL}/oauth2/token`;
+
+console.log("toen URL", tokenUrl);
 const tokenRequestBody = new URLSearchParams({
   grant_type: "authorization_code",
   client_id: CLIENT_ID,
@@ -93,11 +95,11 @@ app.get("/token",async (req,res,next)=>{
 
 const CLIENT_ID = process.env.CLIENT_ID;
 const  CLIENT_SECRET = process.env.CLIENT_SECRET;
-const HYDRA_PUBLIC_URL = process.env.HYDRA_PUBLIC_URL;
+const HYDRA_AUTH_API_URL = process.env.HYDRA_AUTH_API_URL;
 
 const basicAuth = btoa(encodeURI(CLIENT_ID)+":"+encodeURI(CLIENT_SECRET))
 const {refreshToken} = req.query;
-const tokenUrl = `${HYDRA_PUBLIC_URL}/oauth2/token`;
+const tokenUrl = `${HYDRA_AUTH_API_URL}/oauth2/token`;
 const tokenRequestBody = new URLSearchParams({
   grant_type: "refresh_token",
   client_id: CLIENT_ID,

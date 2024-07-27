@@ -53,7 +53,7 @@
         "oauth2_introspection": {
             "enabled": true,
             "config": {
-            "introspection_url": "http://localhost:5445/oauth2/introspect",
+            "introspection_url": "http://ory-hydra-example:4445/oauth2/introspect",
             "scope_strategy": "exact",
             "pre_authorization": {
                 "enabled": false,
@@ -62,7 +62,7 @@
                 "scope": [
                 "offline"
                 ],
-                "token_url": "http://localhost:5445/oauth2/token"
+                "token_url": "http://ory-hydra-example:4445/oauth2/token"
             },
             "token_from": {
                 "header": "token"

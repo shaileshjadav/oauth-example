@@ -11,13 +11,14 @@ services:
       - 9010:9010
     environment:
       HYDRA_PUBLIC_URL: http://localhost:5444
+      HYDRA_AUTH_API_URL: http://ory-hydra-example:4444
       CLIENT_ID: nodeApp
       CLIENT_SECRET: someSecret
       REDIRECT_URI: http://localhost:9010/callback
-
-
+    
 
   api:
+    container_name: node-api
     depends_on:
       - auth-api
     build: ../node-api
@@ -30,16 +31,16 @@ services:
     image: node:18.17.0-alpine
     container_name: auth-api
     build: .
-    networks:
-      - hydraguide
     ports: 
       - "9020:9020"
     environment:
       SECRETS_SYSTEM: "${SECRETS_SYSTEM}"
       DSN: "${DSN}"
       NODE_APP_CLIENT_ID: clientId
-      HYDRA_ADMIN_URL: http://localhost:5445/
-    
+      HYDRA_ADMIN_URL: http://ory-hydra-example:4445/
+    networks:
+      - hydraguide
+  
   oauthkeeper:
     image: oryd/oathkeeper:v0.40.7
     container_name: ory-oauthkeeper
